@@ -9,6 +9,7 @@ import 'package:jobkar/controller/on_apply.dart';
 import 'package:jobkar/controller/phone_controller.dart';
 import 'package:jobkar/view/components/card_internship.dart';
 import 'package:jobkar/view/components/card_jobs.dart';
+import 'package:jobkar/view/components/loading_widget.dart';
 import 'package:jobkar/view/pages/option/pages/applied_page.dart';
 import 'package:jobkar/view/pages/option/pages/favourite_job_pages.dart';
 import 'package:jobkar/view/pages/option/pages/premium_page.dart';
@@ -75,6 +76,35 @@ class _MainPageState extends State<MainPage> {
     "assets/com/dell.png",
     "assets/com/hcl.png",
     "assets/com/paytm.png",
+  ];
+  var listCategory = [
+    "Accountant",
+    "Software Development",
+    "Web Development",
+    "Sales & Marketing",
+    "Digital Marketing",
+    "Delivery",
+    "Marketing Management",
+    "Financial Analyst",
+    "Business Analyst",
+    "Real State",
+    "Block Chain",
+    "Frontend Development",
+    "Backend Development",
+    "Wordpress Developer",
+    "Web Designer",
+    "Software Designer",
+    "Human Resource",
+    "Project Manager",
+    "Business Development Executive",
+    "Full Stack",
+    "Architect",
+    "Machine Learning",
+    "Consultant",
+    "AutoCad",
+    "Data Scientist",
+    "Cold Calling",
+    "Others"
   ];
   final searchController = TextEditingController();
    String jobName = '';
@@ -299,6 +329,92 @@ class _MainPageState extends State<MainPage> {
                       fontSize: 24, fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 10.0),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: SizedBox(
+                //       height: 45,
+                //       width: double.infinity,
+                //       child: CupertinoSearchTextField(
+                //         controller: searchController,
+                //         backgroundColor: Colors.white,
+                //         onChanged: (value) {
+                //           setState(() {
+                //             jobName = value;
+                //           });
+                //         },
+                //       ),
+                //     ),
+                //     ),
+                //     const SizedBox(width: 5),
+                //     InkWell(
+                //       onTap: () {
+                //         showModalBottomSheet(
+                //           backgroundColor: Colors.white,
+                //           shape: const RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.only(
+                //               topLeft: Radius.circular(25),
+                //               topRight: Radius.circular(25)
+                //             )
+                //           ),
+                //             context: context, builder: (context) {
+                //             return Padding(
+                //               padding: const EdgeInsets.all(12.0),
+                //               child: SizedBox(
+                //                 child: Column(
+                //                   //mainAxisSize: MainAxisSize.min,
+                //                   crossAxisAlignment: CrossAxisAlignment.start,
+                //                   children: [
+                //                     const SizedBox(height: 8),
+                //                     Text("Filter",style: GoogleFonts.quicksand(fontSize: 22,fontWeight: FontWeight.bold,color: Colors.black54),),
+                //                     Padding(
+                //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
+                //                       child: Container(
+                //                         height: 1,
+                //                         width: double.infinity,
+                //                         decoration:const BoxDecoration(
+                //                           color: Colors.black12
+                //                         ),
+                //                       ),
+                //                     ),
+                //                     const SizedBox(height: 8),
+                //                     Text("Category",style: GoogleFonts.quicksand(fontSize: 16,fontWeight: FontWeight.w700,color: Colors.black54),),
+                //                     Expanded(
+                //                       child: ListView.builder(
+                //                           shrinkWrap: true,
+                //                           itemCount: listCategory.length,
+                //                           scrollDirection: Axis.horizontal,
+                //                           physics: const BouncingScrollPhysics(),
+                //                           itemBuilder: (context, index){
+                //                             return Padding(
+                //                               padding: const EdgeInsets.all(5.0),
+                //                               child: ElevatedButton(
+                //                                 onPressed: (){},
+                //                                 child: Text(listCategory[index].toString(),style: GoogleFonts.quicksand(fontSize: 11,fontWeight: FontWeight.w600),),
+                //                               ),
+                //                             );
+                //                           }),
+                //                     )
+                //                   ],
+                //                 ),
+                //               ),
+                //             );
+                //         });
+                //       },
+                //       child: Container(
+                //         height: 45,
+                //         width: 45,
+                //         decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.circular(10),
+                //           color: Colors.white
+                //         ),
+                //         child:const Center(
+                //           child: Icon(LineAwesomeIcons.filter),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(
                   height: 45,
                   width: double.infinity,
@@ -849,7 +965,10 @@ class _MainPageState extends State<MainPage> {
                       );
                     }
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 8.0),
+                        child: LoadingWidget(),
+                      ),
                     );
                   },
                 ),

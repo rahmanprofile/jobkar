@@ -121,7 +121,7 @@ class CardJob extends StatelessWidget {
                           child: Text(
                             "Apply",
                             style: GoogleFonts.roboto(
-                                fontSize: 12, fontWeight: FontWeight.w300),
+                                fontSize: 12, fontWeight: FontWeight.w400),
                           ),
                         ),
                       ),
@@ -141,7 +141,7 @@ class CardJob extends StatelessWidget {
                             "Apply with Premium",
                             style: GoogleFonts.roboto(
                                 fontSize: 12,
-                                fontWeight: FontWeight.w300,
+                                fontWeight: FontWeight.w400,
                                 color: Colors.white),
                           ),
                         ),

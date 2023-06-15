@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jobkar/controller/phone_controller.dart';
+import 'package:jobkar/view/components/loading_widget.dart';
 import 'package:jobkar/view/components/round_button.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -103,7 +104,7 @@ class _CodeVerificationState extends State<CodeVerification> {
                   const SizedBox(height: 25.0),
                   _isLoading
                       ? const Center(
-                          child: CircularProgressIndicator(color: mainColor),
+                          child: LoadingWidget(),
                         )
                       : RoundButton(
                           text: "Confirm",
@@ -134,14 +135,14 @@ class _CodeVerificationState extends State<CodeVerification> {
                       children: [
                         Text(
                           "After confirmation you agree our all types of terms &",
-                          style: GoogleFonts.roboto(
+                          style: GoogleFonts.quicksand(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                               color: Colors.black54),
                         ),
                         Text(
                           "policy and conditions & included service charges.",
-                          style: GoogleFonts.roboto(
+                          style: GoogleFonts.quicksand(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                               color: Colors.black54),
@@ -155,7 +156,7 @@ class _CodeVerificationState extends State<CodeVerification> {
                     children: [
                       Text(
                         "If it not has received Sms?  ",
-                        style: GoogleFonts.roboto(
+                        style: GoogleFonts.quicksand(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                           color: Colors.black54,
@@ -171,10 +172,10 @@ class _CodeVerificationState extends State<CodeVerification> {
                             : null,
                         child: Text(
                           _isCountDown ? "$_countDown" : "Resend Code",
-                          style: GoogleFonts.roboto(
+                          style: GoogleFonts.quicksand(
                             color: const Color(0xFF512DA8),
                             fontSize: 13,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),

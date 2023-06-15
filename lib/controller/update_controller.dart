@@ -60,12 +60,14 @@ class UpdateController extends ChangeNotifier {
         var downloadUrl = await snapshot.ref.getDownloadURL();
          __store.collection("users").doc(__user!.uid).update({
           'imageUrl': downloadUrl,
-        });
-        MySnackBar(context, "Profile updated");
-        notifyListeners();
+        }).then((value) {
+           MySnackBar(context, "Profile updated");
+           notifyListeners();
+         });
       }
     } catch (e) {
       e.toString();
+      notifyListeners();
     }
   }
 
@@ -193,7 +195,6 @@ class UpdateController extends ChangeNotifier {
     }
   }
 
-
   Future<void> updateLinkedinUrl(context, String url) async {
     __store.collection("users").doc(__user!.uid).update({
       'linkedin-url': url,
@@ -206,6 +207,24 @@ class UpdateController extends ChangeNotifier {
   Future<void> updateGithubUrl(context, String url) async {
     __store.collection("users").doc(__user!.uid).update({
       'github-url': url,
+    }).then((value) {
+      MySnackBar(context, "Update successfully");
+      notifyListeners();
+    });
+  }
+
+  Future<void> updateCategoryOne(context, String cat1) async {
+    __store.collection("users").doc(__user!.uid).update({
+      'category-1': cat1,
+    }).then((value) {
+      MySnackBar(context, "Update successfully");
+      notifyListeners();
+    });
+  }
+
+  Future<void> updateCategoryTwo(context, String cat2) async {
+    __store.collection("users").doc(__user!.uid).update({
+      'category-2': cat2,
     }).then((value) {
       MySnackBar(context, "Update successfully");
       notifyListeners();

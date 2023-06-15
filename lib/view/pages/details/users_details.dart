@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jobkar/controller/data_controller.dart';
+import 'package:jobkar/view/components/loading_widget.dart';
 import 'package:jobkar/view/components/round_button.dart';
 import 'package:jobkar/view/home.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -22,6 +23,37 @@ class _UsersDetailsState extends State<UsersDetails> {
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String? categoryOne;
+  String? categoryTwo;
+  var listCategory = [
+    "Accountant",
+    "Software Development",
+    "Web Development",
+    "Sales & Marketing",
+    "Digital Marketing",
+    "Delivery",
+    "Marketing Management",
+    "Financial Analyst",
+    "Business Analyst",
+    "Real State",
+    "Block Chain",
+    "Frontend Development",
+    "Backend Development",
+    "Wordpress Developer",
+    "Web Designer",
+    "Software Designer",
+    "Human Resource",
+    "Project Manager",
+    "Business Development Executive",
+    "Full Stack",
+    "Architect",
+    "Machine Learning",
+    "Consultant",
+    "AutoCad",
+    "Data Scientist",
+    "Cold Calling",
+    "Others"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -141,10 +173,72 @@ class _UsersDetailsState extends State<UsersDetails> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 8.0),
+                  _titleText("Category-1"),
+                  const SizedBox(height: 8.0),
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: softColor,
+                        border: Border.all(color: Colors.black12)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: DropdownButton<String>(
+                        value: categoryOne,
+                        underline: Container(),
+                        hint: const Text("Select your first job Category"),
+                        onChanged: (String? newValue) {
+                          // Make the onChanged callback accept nullable String
+                          setState(() {
+                            categoryOne = newValue;
+                          });
+                        },
+                        items: listCategory
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  _titleText("Category-2"),
+                  const SizedBox(height: 8.0),
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: softColor,
+                        border: Border.all(color: Colors.black12)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: DropdownButton<String>(
+                        value: categoryTwo,
+                        underline: Container(),
+                        hint: const Text("Select your second job Category"),
+                        onChanged: (String? newValue) {
+                          // Make the onChanged callback accept nullable String
+                          setState(() {
+                            categoryTwo = newValue;
+                          });
+                        },
+                        items: listCategory
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 30),
                   isLoading
                       ? const Center(
-                          child: CircularProgressIndicator(color: mainColor),
+                          child: LoadingWidget(),
                         )
                       : RoundButton(
                           text: "Continue",
@@ -160,6 +254,8 @@ class _UsersDetailsState extends State<UsersDetails> {
                                   nameController.text,
                                   emailController.text,
                                   phoneController.text,
+                                  categoryOne.toString(),
+                                  categoryTwo.toString(),
                                 );
                                 pref.setString("name", nameController.text);
                                 pref.setString("email", emailController.text);
@@ -188,14 +284,20 @@ class _UsersDetailsState extends State<UsersDetails> {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const Home(),),);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Home(),
+                              ),
+                            );
                           },
                           child: Text(
                             "Skip",
                             style: GoogleFonts.roboto(
-                                color:const  Color(0xFF4527A0),
+                                color: const Color(0xFF4527A0),
                                 fontSize: 15,
-                                fontWeight: FontWeight.w500),
+                                fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ],

@@ -34,14 +34,14 @@ class PremiumApplyUserComponent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 70,
+              height: 80,
               width: 70,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(2),
                 border: Border.all(color: Colors.black12),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(2),
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
                   imageUrl: imageUrl.toString(),

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jobkar/controller/add_in_favourite.dart';
 import 'package:jobkar/controller/on_apply.dart';
+import 'package:jobkar/view/components/loading_widget.dart';
 import 'package:jobkar/view/pages/option/pages/applied_page.dart';
 import 'package:jobkar/view/pages/search_page.dart';
 import 'package:provider/provider.dart';
@@ -64,7 +65,7 @@ class _InternshipPageState extends State<InternshipPage> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        titleSpacing: 0,
+        titleSpacing: 5,
         iconTheme:const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -311,7 +312,10 @@ class _InternshipPageState extends State<InternshipPage> {
                     );
                   }
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: LoadingWidget(),
+                    ),
                   );
                 },
               ),

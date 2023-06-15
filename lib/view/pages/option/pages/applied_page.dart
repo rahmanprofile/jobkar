@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jobkar/view/pages/option/pages/components/applied_jobs_component.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
-
 import '../../../../controller/on_apply.dart';
 
 class AppliedPage extends StatefulWidget {

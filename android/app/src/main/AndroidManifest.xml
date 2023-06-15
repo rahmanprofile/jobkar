@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
    <application
-        android:label="jobkar"
+        android:label="Jobkar"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -36,5 +36,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-    </application>
+
+   </application>
 </manifest>

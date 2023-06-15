@@ -34,8 +34,8 @@ class _UpdateQualificationState extends State<UpdateQualification> {
                 const SizedBox(height: 80),
                 Text(
                   "Update \nYour Qualification",
-                  style: GoogleFonts.roboto(
-                      fontSize: 23, fontWeight: FontWeight.w500),
+                  style: GoogleFonts.quicksand(
+                      fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "It is important to save correct data else you can face issue?",

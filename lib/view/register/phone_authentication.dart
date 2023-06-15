@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jobkar/controller/phone_controller.dart';
+import 'package:jobkar/view/components/loading_widget.dart';
 import 'package:jobkar/view/components/round_button.dart';
 import 'package:provider/provider.dart';
 import '../../../controller/constant.dart';
@@ -25,12 +26,12 @@ class _PhoneAuthState extends State<PhoneAuth> {
         children: [
           Positioned(
             top: 60,
-            right: 0,
+            right: 10,
             child: Column(
               children: [
                 Container(
-                  height: 80,
-                  width: 80,
+                  height: 50,
+                  width: 50,
                   decoration: BoxDecoration(
                     color: blueColor,
                     borderRadius: const BorderRadius.only(
@@ -41,8 +42,8 @@ class _PhoneAuthState extends State<PhoneAuth> {
                 ),
                 const SizedBox(height: 10),
                 Container(
-                  height: 80,
-                  width: 80,
+                  height: 50,
+                  width: 50,
                   decoration: const BoxDecoration(
                     color: Color(0xFFE91E63),
                     borderRadius: BorderRadius.only(
@@ -60,8 +61,8 @@ class _PhoneAuthState extends State<PhoneAuth> {
             child: Column(
               children: [
                 Container(
-                  height: 80,
-                  width: 80,
+                  height: 50,
+                  width: 50,
                   decoration: BoxDecoration(
                     color: blueColor,
                     borderRadius: BorderRadius.circular(100),
@@ -69,8 +70,8 @@ class _PhoneAuthState extends State<PhoneAuth> {
                 ),
                 const SizedBox(height: 10),
                 Container(
-                  height: 80,
-                  width: 80,
+                  height: 50,
+                  width: 50,
                   decoration: const BoxDecoration(
                     color: Color(0xFFE91E63),
                     borderRadius: BorderRadius.only(
@@ -177,16 +178,14 @@ class _PhoneAuthState extends State<PhoneAuth> {
                   const SizedBox(height: 20),
                   _isLoading
                       ? const Center(
-                          child: CircularProgressIndicator(color: mainColor),
+                          child: LoadingWidget(),
                         )
                       : RoundButton(
                           text: "Send Code",
-                          onTap: () async {
+                          onTap: () {
                             if (_formKey.currentState!.validate()) {
-                              setState(() {
-                                _isLoading = true;
-                                Provider.of<PhoneController>(context,listen: false)
-                                    .signInWithPhoneNumber(
+                              setState(() {_isLoading = true;
+                                Provider.of<PhoneController>(context,listen: false).signInWithPhoneNumber(
                                         context, _phoneTextController.text);
                               });
                             } else {
@@ -196,7 +195,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
                             }
                           },
                           textColor: Colors.white,
-                          color: const Color(0xFFE91E63),
+                          color: Colors.blueAccent,
                         ),
                 ],
               ),

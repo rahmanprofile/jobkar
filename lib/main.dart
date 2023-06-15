@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jobkar/view/pages/splash_screen.dart';
+import 'package:jobkar/controller/category_controller.dart';
+import 'package:jobkar/controller/project_controller.dart';
+import 'package:jobkar/user/guidlines_pages.dart';
+import 'package:jobkar/view/home.dart';
 import 'package:provider/provider.dart';
 import 'controller/add_in_favourite.dart';
 import 'controller/data_controller.dart';
@@ -32,12 +36,22 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AddInFavourite()),
         ChangeNotifierProvider(create: (_) => DataController()),
         ChangeNotifierProvider(create: (_) => UpdateController()),
+        ChangeNotifierProvider(create: (_) => CategoryController()),
+        ChangeNotifierProvider(create: (_) => ProjectController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Jobkar',
         theme: appNewTheme,
-        home: const SplashScreen(),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+            if (!snapshot.hasData) {
+              return const WelcomePage();
+            }
+            return const Home();
+          },
+        ),
       ),
     );
   }

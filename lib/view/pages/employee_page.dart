@@ -8,6 +8,7 @@ import 'package:jobkar/controller/add_in_favourite.dart';
 import 'package:jobkar/controller/constant.dart';
 import 'package:jobkar/controller/on_apply.dart';
 import 'package:jobkar/view/components/card_jobs.dart';
+import 'package:jobkar/view/components/loading_widget.dart';
 import 'package:jobkar/view/pages/option/pages/applied_page.dart';
 import 'package:jobkar/view/pages/search_page.dart';
 import 'package:provider/provider.dart';
@@ -446,7 +447,10 @@ class _EmployeePageState extends State<EmployeePage> {
                     );
                   }
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: LoadingWidget(),
+                    ),
                   );
                 },
               ),

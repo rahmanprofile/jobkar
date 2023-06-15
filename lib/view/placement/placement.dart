@@ -283,9 +283,11 @@ class _PlacementPlaceState extends State<PlacementPlace> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(2.0),
                                   color: Colors.white,
-                                  image: const DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage("assets/img/group.png"))),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Image.asset("assets/img/group.png"),
+                              ),
                             ),
                             const SizedBox(width: 10),
                             Column(

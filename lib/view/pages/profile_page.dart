@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,14 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jobkar/controller/constant.dart';
 import 'package:jobkar/controller/data_controller.dart';
-import 'package:jobkar/controller/phone_controller.dart';
-import 'package:jobkar/view/pages/details/update_location.dart';
 import 'package:jobkar/view/pages/details/update_qualification.dart';
+import 'package:jobkar/view/pages/details/update_social_category.dart';
 import 'package:jobkar/view/pages/details/update_user_address.dart';
 import 'package:jobkar/view/pages/details/update_user_details.dart';
-import 'package:jobkar/view/pages/option/technical_support.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import '../../controller/update_controller.dart';
 
@@ -32,7 +28,6 @@ class _ProfilePageState extends State<ProfilePage> {
     img = "assets/img/bg.jpg";
     __data();
   }
-
   String img = "";
   final __user = FirebaseAuth.instance.currentUser;
   final __store = FirebaseFirestore.instance;
@@ -52,6 +47,10 @@ class _ProfilePageState extends State<ProfilePage> {
   String? district;
   String? state;
   String? zipCode;
+  String? linkedin;
+  String? github;
+  String? cat1;
+  String? cat2;
   __data() async {
     if (__user != null) {
       final data = await __store.collection("users").doc(__user!.uid).get();
@@ -72,6 +71,10 @@ class _ProfilePageState extends State<ProfilePage> {
         final myState = data.data()!['district'];
         final myCode = data.data()!['zipcode'];
         final myCity = data.data()!['city'];
+        final myLinkedIn = data.data()!['linkedin-url'];
+        final myGithub = data.data()!['github-url'];
+        final myCat1 = data.data()!['category-1'];
+        final myCat2 = data.data()!['category-2'];
         setState(() {
           names = name;
           emails = email;
@@ -87,13 +90,16 @@ class _ProfilePageState extends State<ProfilePage> {
           area = myArea;
           district = myDist;
           state = myState;
-           zipCode = myCode;
-           city = myCity;
+          zipCode = myCode;
+          city = myCity;
+          linkedin = myLinkedIn;
+          github = myGithub;
+          cat1 = myCat1;
+          cat2 = myCat2;
         });
       }
     }
   }
-
   bool _isEmailVerified = false;
   void checkEmailVerified() async {
     bool isVerified = await DataController().isEmailVerified();
@@ -101,501 +107,346 @@ class _ProfilePageState extends State<ProfilePage> {
       _isEmailVerified = isVerified;
     });
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "Profile",
-          style: GoogleFonts.roboto(color: Colors.black, fontSize: 22),
-        ),
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              showModalBottomSheet(
-                backgroundColor: Colors.white,
-                context: context,
-                builder: (context) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: ListView(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      children: [
-                        ListTile(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const UpdateUserDetails()),
-                            );
-                          },
-                          leading: Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                                color: softColor,
-                                borderRadius: BorderRadius.zero,
-                                border: Border.all(color: Colors.black12)),
-                            child: const Center(
-                              child: Icon(LineIcons.user, size: 17),
-                            ),
-                          ),
-                          title: Text(
-                            "Personal Details",
-                            style: GoogleFonts.roboto(
-                                fontSize: 15, fontWeight: FontWeight.w400),
-                          ),
-                          subtitle: Text(
-                            "Update your personal details",
-                            style: GoogleFonts.roboto(
-                                fontSize: 13, fontWeight: FontWeight.normal),
-                          ),
-                          trailing: const Icon(CupertinoIcons.chevron_forward,
-                              size: 17),
-                        ),
-                        ListTile(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const UpdateQualification()),
-                            );
-                          },
-                          leading: Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                                color: softColor,
-                                borderRadius: BorderRadius.zero,
-                                border: Border.all(color: Colors.black12)),
-                            child: const Center(
-                              child: Icon(LineIcons.graduationCap, size: 17),
-                            ),
-                          ),
-                          title: Text(
-                            "Education",
-                            style: GoogleFonts.roboto(
-                                fontSize: 15, fontWeight: FontWeight.w400),
-                          ),
-                          subtitle: Text(
-                            "Update your education details",
-                            style: GoogleFonts.roboto(
-                                fontSize: 13, fontWeight: FontWeight.normal),
-                          ),
-                          trailing: const Icon(CupertinoIcons.chevron_forward,
-                              size: 17),
-                        ),
-                        ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const UpdateUserAddress()));
-                          },
-                          leading: Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                                color: softColor,
-                                borderRadius: BorderRadius.zero,
-                                border: Border.all(color: Colors.black12)),
-                            child: const Center(
-                              child: Icon(LineIcons.campground, size: 17),
-                            ),
-                          ),
-                          title: Text(
-                            "Address",
-                            style: GoogleFonts.roboto(
-                                fontSize: 15, fontWeight: FontWeight.w400),
-                          ),
-                          subtitle: Text(
-                            "Update your current location",
-                            style: GoogleFonts.roboto(
-                                fontSize: 13, fontWeight: FontWeight.normal),
-                          ),
-                          trailing: const Icon(CupertinoIcons.chevron_forward,
-                              size: 17),
-                        ),
-                        ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const TechnicalSupport()));
-                          },
-                          leading: Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                                color: softColor,
-                                borderRadius: BorderRadius.zero,
-                                border: Border.all(color: Colors.black12)),
-                            child: const Center(
-                              child: Icon(LineIcons.map, size: 17),
-                            ),
-                          ),
-                          title: Text(
-                            "Supports",
-                            style: GoogleFonts.roboto(
-                                fontSize: 15, fontWeight: FontWeight.w400),
-                          ),
-                          subtitle: Text(
-                            "Connect with community support",
-                            style: GoogleFonts.roboto(
-                                fontSize: 13, fontWeight: FontWeight.normal),
-                          ),
-                          trailing: const Icon(CupertinoIcons.chevron_forward,
-                              size: 17),
-                        ),
-                        ListTile(
-                          onTap: () async {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      "Alert!",
-                                      style: GoogleFonts.roboto(),
-                                    ),
-                                    content: Text(
-                                      "Are you sure want to logout.",
-                                      style: GoogleFonts.roboto(),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            "No",
-                                            style: GoogleFonts.roboto(
-                                                color: Colors.black),
-                                          )),
-                                      TextButton(
-                                          onPressed: () {
-                                            Provider.of<PhoneController>(
-                                                    context,
-                                                    listen: false)
-                                                .signOut(context);
-                                          },
-                                          child: Text(
-                                            "Yes",
-                                            style: GoogleFonts.roboto(
-                                                color: Colors.black),
-                                          )),
-                                    ],
-                                  );
-                                });
-                          },
-                          leading: Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                                color: softColor,
-                                borderRadius: BorderRadius.zero,
-                                border: Border.all(color: Colors.black12)),
-                            child: const Center(
-                              child: Icon(LineIcons.alternateSignOut, size: 17),
-                            ),
-                          ),
-                          title: Text(
-                            "Logout",
-                            style: GoogleFonts.roboto(
-                                fontSize: 15, fontWeight: FontWeight.w400),
-                          ),
-                          subtitle: Text(
-                            "Exit from this place",
-                            style: GoogleFonts.roboto(
-                                fontSize: 13, fontWeight: FontWeight.normal),
-                          ),
-                          trailing: const Icon(CupertinoIcons.chevron_forward,
-                              size: 17),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
-            icon: const Icon(
-              CupertinoIcons.ellipsis_vertical,
-              size: 18,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-        child: ListView(
-          shrinkWrap: true,
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  height: 130,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black12, width: 1),
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage(img)),
-                  ),
-                ),
-                Positioned(
-                  bottom: -40,
-                  left: 20,
-                  child: InkWell(
-                    onTap: () {
-                      Provider.of<UpdateController>(context, listen: false)
-                          .updateImage(context, ImageSource.gallery);
-                    },
-                    child: Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.black12, width: 2),
+          child: Column(
+            children: [
+              const SizedBox(height: 50),
+              Center(
+                child: InkWell(
+                  onTap: (){
+                    showModalBottomSheet(
+                      backgroundColor: Colors.white,
+                      shape:const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25),
+                        )
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          imageUrl: imageUrl.toString(),
-                          placeholder: (context, url) => const Icon(
-                              CupertinoIcons.person_fill,
-                              color: Colors.black54),
-                          errorWidget: (context, url, error) =>
-                              const Icon(LineAwesomeIcons.user),
+                        context: context, builder: (context) {
+                      return SizedBox(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(height: 8.0),
+                            ListTile(
+                              onTap: () {
+                                Provider.of<UpdateController>(context, listen: false).updateImage(context, ImageSource.gallery);
+                                Navigator.pop(context);
+                                //MySnackBar(context, "Image uploading");
+                              },
+                              leading: Container(
+                                height: 45,
+                                width: 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: softColor,
+                                ),
+                                child:const Center(
+                                  child: Icon(LineAwesomeIcons.image),
+                                ),
+                              ),
+                              title: Text("Gallery",style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
+                              subtitle: Text("Upload image from gallery",style: GoogleFonts.quicksand(),),
+                              trailing: const Icon(CupertinoIcons.chevron_forward),
+                            ),
+                            ListTile(
+                              onTap: () {
+                                Provider.of<UpdateController>(context, listen: false).updateImage(context, ImageSource.camera);
+                                Navigator.pop(context);
+                                //MySnackBar(context, "Image uploading");
+                              },
+                              leading: Container(
+                                height: 45,
+                                width: 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: softColor,
+                                ),
+                                child:const Center(
+                                  child: Icon(LineAwesomeIcons.camera),
+                                ),
+                              ),
+                              title: Text("Camera",style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
+                              subtitle: Text("Upload image from camera",style: GoogleFonts.quicksand(),),
+                              trailing: const Icon(CupertinoIcons.chevron_forward),
+                            ),
+                            const SizedBox(height: 8.0),
+                          ],
                         ),
-                      ),
-                    ),
+                      );
+                    });
+                  },
+                  child: CircleAvatar(
+                    maxRadius: 55,
+                    minRadius: 55,
+                    backgroundColor: softColor,
+                    backgroundImage: NetworkImage(imageUrl.toString()),
                   ),
                 ),
-                Positioned(
-                  bottom: -15,
-                  right: 20,
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black38),
-                    ),
-                    child: const Center(
-                      child: Icon(CupertinoIcons.checkmark_seal_fill,
-                          size: 18, color: Color(0xFF34B233),
-                      ),
-                    ),
+              ),
+              const SizedBox(height: 15),
+              Text(names.toString(),style: GoogleFonts.quicksand(fontSize: 22,fontWeight: FontWeight.bold),),
+              Text("Email : ${emails.toString()}",style: GoogleFonts.quicksand(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.black54),),
+              Text("Phone : ${phones.toString()}",style: GoogleFonts.quicksand(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.black54),),
+              const SizedBox(height: 5),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const UpdateUserDetails()));
+                },
+                child: Container(
+                  height: 35,
+                  width: 35,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: softColor,
+                  ),
+                  child: const Center(
+                    child: Icon(LineAwesomeIcons.pen_nib),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 50.0),
-            Row(
-              children: [
-                Column(
+              ),
+              const SizedBox(height: 20),
+              Container(
+                padding:const EdgeInsets.symmetric(horizontal: 8,vertical: 6.0),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      names.toString(),
-                      style: GoogleFonts.roboto(
-                          fontSize: 18, fontWeight: FontWeight.w600),
+                    Text("Credential",style: GoogleFonts.quicksand(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black54),),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 8),
+                      child: Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: Colors.black12,
+                      ),
                     ),
-                    Text(
-                      "Email : $emails",
-                      style: GoogleFonts.roboto(
-                          fontSize: 12, fontWeight: FontWeight.w300),
+                    Text("UID : $jid@seeker",style: GoogleFonts.quicksand(fontSize: 13),),
+                    const SizedBox(height: 5),
+                    Text("Verified : Account Verified", style: GoogleFonts.quicksand(fontSize: 13,color: CupertinoColors.activeGreen,fontWeight: FontWeight.bold),),
+                    const SizedBox(height: 5),
+                    Text("Status : Live",style: GoogleFonts.quicksand(fontSize: 13,color: CupertinoColors.activeGreen,fontWeight: FontWeight.bold
                     ),
-                    Text(
-                      "UID : $jid@jobkar.com",
-                      style: GoogleFonts.roboto(
-                          fontSize: 12, fontWeight: FontWeight.w300),
-                    ),
-                    Text(
-                      "Phone : $phones",
-                      style: GoogleFonts.roboto(
-                          fontSize: 12, fontWeight: FontWeight.w300),
                     ),
                   ],
                 ),
-                const Spacer(),
-                InkWell(
-                  onTap: () {},
-                  child: const Icon(LineAwesomeIcons.linkedin),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: const Icon(LineAwesomeIcons.github),
-                ),
-                const SizedBox(width: 10),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                const Icon(LineAwesomeIcons.graduation_cap, size: 20),
-                const SizedBox(width: 3.0),
-                Text(
-                  "Qualification",
-                  style: GoogleFonts.roboto(
-                      fontSize: 15, fontWeight: FontWeight.w600),
-                ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const UpdateQualification()));
-                  },
-                  child: const Icon(LineAwesomeIcons.edit, size: 18),
-                )
-              ],
-            ),
-            const SizedBox(height: 3),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2.0),
-                color: Colors.white,
-                //border: Border.all(color: Colors.black12)
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    colleges.toString(),
-                    style: GoogleFonts.ptSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black54),
-                  ),
-                  Text(
-                    "$courses & $branch",
-                    style: GoogleFonts.roboto(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black54),
-                  ),
-                  Text(
-                    "Year - $years",
-                    style: GoogleFonts.roboto(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black54),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                const Icon(LineAwesomeIcons.scribd, size: 20),
-                const SizedBox(width: 3.0),
-                Text(
-                  "Experience",
-                  style: GoogleFonts.roboto(
-                      fontSize: 15, fontWeight: FontWeight.w600),
+              const SizedBox(height: 25),
+              Container(
+                padding:const EdgeInsets.symmetric(horizontal: 8,vertical: 6.0),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                  borderRadius: BorderRadius.circular(5),
                 ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const UpdateQualification()));
-                  },
-                  child: const Icon(LineAwesomeIcons.edit, size: 18),
-                )
-              ],
-            ),
-            const SizedBox(height: 3),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2.0),
-                color: Colors.white,
-                //border: Border.all(color: Colors.black12),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Skill : $skills \nExperience : $experiences",
-                    style: GoogleFonts.roboto(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black54),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                const Icon(LineAwesomeIcons.map, size: 20),
-                const SizedBox(width: 3.0),
-                Text(
-                  "Location",
-                  style: GoogleFonts.roboto(
-                      fontSize: 15, fontWeight: FontWeight.w600),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text("Qualification",style: GoogleFonts.quicksand(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black54),),
+                        const Spacer(),
+                        InkWell(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const UpdateQualification()));
+                            },
+                            child: const Icon(CupertinoIcons.chevron_forward),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 8),
+                      child: Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: Colors.black12,
+                      ),
+                    ),
+                    Text("College : $colleges",style: GoogleFonts.quicksand(fontSize: 13),),
+                    const SizedBox(height: 5),
+                    Text("Course : $courses",style: GoogleFonts.quicksand(fontSize: 13),),
+                    const SizedBox(height: 5),
+                    Text("Branch : $branch",style: GoogleFonts.quicksand(fontSize: 13),),
+                    const SizedBox(height: 5),
+                    Text("Year : $years",style: GoogleFonts.quicksand(fontSize: 13),),
+                  ],
                 ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const UpdateLocation()));
-                  },
-                  child: const Icon(LineAwesomeIcons.edit, size: 18),
-                )
-              ],
-            ),
-            const SizedBox(height: 3),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2.0),
-                color: Colors.white,
-                //border: Border.all(color: Colors.black12),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Area : $area \nCity : $city \nState : $state - $zipCode",
-                    style: GoogleFonts.roboto(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black54),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            if (_isEmailVerified)
-              Text("Cerified") else
-                ElevatedButton(
-                    onPressed: (){},
-                    child:const Text("Verify email")
-                ),
 
-          ],
+              const SizedBox(height: 25),
+              Container(
+                padding:const EdgeInsets.symmetric(horizontal: 8,vertical: 6.0),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text("Knowledge",style: GoogleFonts.quicksand(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black54),),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const UpdateQualification()));
+                          },
+                          child: const Icon(CupertinoIcons.chevron_forward),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 8),
+                      child: Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: Colors.black12,
+                      ),
+                    ),
+                    Text("Skill : $skills",style: GoogleFonts.quicksand(fontSize: 13),),
+                    const SizedBox(height: 5),
+                    Text("Experience : $experiences",style: GoogleFonts.quicksand(fontSize: 13),),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 25),
+              Container(
+                padding:const EdgeInsets.symmetric(horizontal: 8,vertical: 6.0),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text("Category",style: GoogleFonts.quicksand(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black54),),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const UpdateSocialCategory()));
+                          },
+                          child: const Icon(CupertinoIcons.chevron_forward),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 8),
+                      child: Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: Colors.black12,
+                      ),
+                    ),
+                    Text("Main : $cat1",style: GoogleFonts.quicksand(fontSize: 13),),
+                    const SizedBox(height: 5),
+                    Text("Primary : $cat2",style: GoogleFonts.quicksand(fontSize: 13),),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 25),
+              Container(
+                padding:const EdgeInsets.symmetric(horizontal: 8,vertical: 6.0),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text("Address",style: GoogleFonts.quicksand(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black54),),
+                        const Spacer(),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const UpdateUserAddress()));
+                          },
+                          child: const Icon(CupertinoIcons.chevron_forward),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 8),
+                      child: Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: Colors.black12,
+                      ),
+                    ),
+                    Text("Area : $area",style: GoogleFonts.quicksand(fontSize: 13),),
+                    const SizedBox(height: 5),
+                    Text("City : $city",style: GoogleFonts.quicksand(fontSize: 13),),
+                    const SizedBox(height: 5),
+                    Text("District : $district",style: GoogleFonts.quicksand(fontSize: 13),),
+                    const SizedBox(height: 5),
+                    Text("State : $state",style: GoogleFonts.quicksand(fontSize: 13),),
+                    const SizedBox(height: 5),
+                    Text("ZipCode : $zipCode",style: GoogleFonts.quicksand(fontSize: 13),),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 25),
+              Container(
+                padding:const EdgeInsets.symmetric(horizontal: 8,vertical: 6.0),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text("Social",style: GoogleFonts.quicksand(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black54),),
+                        const Spacer(),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const UpdateSocialCategory()));
+                          },
+                          child: const Icon(CupertinoIcons.chevron_forward),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 8),
+                      child: Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: Colors.black12,
+                      ),
+                    ),
+                    Text("LinkedIn : $linkedin",style: GoogleFonts.quicksand(fontSize: 13),),
+                    const SizedBox(height: 5),
+                    Text("Github : $github",style: GoogleFonts.quicksand(fontSize: 13),),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 15),
+            ],
+          ),
         ),
       ),
     );

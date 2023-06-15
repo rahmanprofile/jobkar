@@ -16,10 +16,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<Widget> _optionWidget = const [
-    MainPage(), // save search & payment setup
-    PlacementPlace(), // same as
-    EmployeePage(), // same as
-    InternshipPage(), // same as
+    MainPage(),
+    PlacementPlace(),
+    EmployeePage(),
+    InternshipPage(),
     ProfilePage(),
   ];
   int _currentIndex = 0;
@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
           ),
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.person),
-            label: "Account",
+            label: "Profile",
           ),
         ],
         onTap: (value) {

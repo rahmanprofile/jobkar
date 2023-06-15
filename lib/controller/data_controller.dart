@@ -9,14 +9,15 @@ class DataController extends ChangeNotifier {
   final __store = FirebaseFirestore.instance;
   final __auth = FirebaseAuth.instance.currentUser;
 
-  Future<void> personalData(
-      context, String name, String email, String phone) async {
+  Future<void> personalData(context, String name, String email, String phone,String cat1, String cat2) async {
     try {
       final __pref = await SharedPreferences.getInstance();
       __store.collection("users").doc(__auth!.uid).set({
         'name': name,
         'email': email,
         'phone': phone,
+        'category-1' : cat1,
+        'category-2' : cat2,
         'imageUrl': '',
         'college': '',
         'course': '',
@@ -31,7 +32,7 @@ class DataController extends ChangeNotifier {
         'district': '',
         'state': '',
         'resume': '',
-        'jid' : '',
+        'jid' : 'example',
         'github-url': '',
         'linkedin-url' : '',
         'userId': __auth!.uid,
@@ -58,8 +59,7 @@ class DataController extends ChangeNotifier {
     }
   }
 
-  Future<void> qualificationData(context, String college, String course,
-      String branch, String year, String experience, String skills) async {
+  Future<void> qualificationData(context, String college, String course, String branch, String year, String experience, String skills) async {
     try {
       __store.collection("users").doc(__auth!.uid).update({
         'college': college,
@@ -97,8 +97,7 @@ class DataController extends ChangeNotifier {
     }
   }
 
-  Future<void> location(context, String city, String area, String district,
-      String state, String zipcode) async {
+  Future<void> location(context, String city, String area, String district, String state, String zipcode) async {
     final __pref = await SharedPreferences.getInstance();
     try {
       __store.collection("users").doc(__auth!.uid).update({
@@ -123,8 +122,7 @@ class DataController extends ChangeNotifier {
     }
   }
 
-  Future<void> payment(String name, String email, String phone,
-      String transactionId, String amount) async {
+  Future<void> payment(String name, String email, String phone, String transactionId, String amount) async {
     final __pref = await SharedPreferences.getInstance();
     try {
       __store.collection('users').doc(__auth!.uid).update({

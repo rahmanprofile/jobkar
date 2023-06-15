@@ -15,8 +15,8 @@ class _UpdateUserDetailsState extends State<UpdateUserDetails> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final jidController = TextEditingController();
-  final githubController = TextEditingController();
-  final linkedinController = TextEditingController();
+  //final githubController = TextEditingController();
+  //final linkedinController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,29 +58,10 @@ class _UpdateUserDetailsState extends State<UpdateUserDetails> {
                       jidController.clear();
                     }),
                 const SizedBox(height: 10),
-                _textCard("Github", "Enter your github url",
-                    LineAwesomeIcons.github, githubController, () {
-                      Provider.of<UpdateController>(context, listen: false).updateGithubUrl(context, githubController.text);
-                      githubController.clear();
-                    }),
-                const SizedBox(height: 10),
-                _textCard("Linkedin", "Enter your linkedin url",
-                    LineAwesomeIcons.linkedin, linkedinController, () {
-                      Provider.of<UpdateController>(context, listen: false).updateLinkedinUrl(context, linkedinController.text);
-                      linkedinController.clear();
-                    }),
               ],
             ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.pink,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: const Icon(LineAwesomeIcons.redo),
       ),
     );
   }

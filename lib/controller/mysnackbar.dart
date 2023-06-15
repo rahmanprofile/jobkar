@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jobkar/controller/constant.dart';
 
 MySnackBar(context, message) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -7,8 +7,11 @@ MySnackBar(context, message) {
     SnackBar(
       behavior: SnackBarBehavior.floating,
       clipBehavior: Clip.hardEdge,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18)
+      ),
       duration: const Duration(seconds: 3),
-      backgroundColor: blueColor,
+      backgroundColor: CupertinoColors.activeGreen,
       content: Text(message),
   ),
   );
